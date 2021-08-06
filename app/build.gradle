@@ -98,10 +98,10 @@ dependencies {
 
 
     //hilt
-//    implementation 'com.google.dagger:hilt-android:2.38.1'
-//    kapt 'com.google.dagger:hilt-compiler:2.38.1'
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
+    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_version"
+    kapt "androidx.hilt:hilt-compiler:$hilt_version"
 
 
     // For instrumentation tests
