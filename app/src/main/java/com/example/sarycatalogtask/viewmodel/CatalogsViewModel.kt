@@ -1,28 +1,24 @@
 package com.example.sarycatalogtask.viewmodel
 
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sarycatalogtask.data.usecase.CatalogUsecase
-import com.example.sarycatalogtask.data.ErrorResponse
+import com.example.sarycatalogtask.domain.response.ErrorResponse
 import com.example.sarycatalogtask.domain.states.State
 import com.example.sarycatalogtask.data.banners.BannersData
 import com.example.sarycatalogtask.data.catalog.CatalogsData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import javax.inject.Inject
 
 
-class ViewModelDashboard
+class CatalogsViewModel
 @ViewModelInject
-constructor(private val usecaseCabinet: CatalogUsecase) : ViewModel() {
+constructor(private val usecaseCatalog: CatalogUsecase) : ViewModel() {
 
-
-    /**
-     * Dashboard
-     */
     private val _uiStateGetAllBanners = MutableLiveData<State<BannersData>>()
     val uiStateGetAllBanners: LiveData<State<BannersData>>
         get() = _uiStateGetAllBanners
@@ -31,42 +27,45 @@ constructor(private val usecaseCabinet: CatalogUsecase) : ViewModel() {
     val uiStateGetAllCatalogs: LiveData<State<CatalogsData>>
         get() = _uiStateGetAllCatalogs
 
+    init{
+
+    }
 
     fun getAllBanners(
     ) {
         _uiStateGetAllBanners.postValue(State.Loading())
         viewModelScope.launch(Dispatchers.IO) {
-            usecaseCabinet.fetchAllSupportedBanners(
+            usecaseCatalog.fetchAllSupportedBanners(
 
             )
                 .let { response ->
                     when (response.isSuccessful) {
-                            true -> {
-                                    if (response.data is BannersData) {
-                                            withContext(Dispatchers.Main) {
-                                                _uiStateGetAllBanners.postValue(
-                                                            State.Success(
-                                                                    response.data
-                                                            )
-                                                    )
-                                            }
-                                    }
+                        true -> {
+                            if (response.data is BannersData) {
+                                withContext(Dispatchers.Main) {
+                                    _uiStateGetAllBanners.postValue(
+                                        State.Success(
+                                            response.data
+                                        )
+                                    )
+                                }
                             }
-                            false -> {
-                                    withContext(Dispatchers.Main) {
-                                            response.errorResponse?.let {
-                                                _uiStateGetAllBanners.postValue(
-                                                            State.Error(
-                                                                    ErrorResponse(
-                                                                            code = it.code,
-                                                                            message = it.message,
-                                                                            it.errors
-                                                                    ), it.message
-                                                            )
-                                                    )
-                                            }
-                                    }
+                        }
+                        false -> {
+                            withContext(Dispatchers.Main) {
+                                response.errorResponse?.let {
+                                    _uiStateGetAllBanners.postValue(
+                                        State.Error(
+                                            ErrorResponse(
+                                                code = it.code,
+                                                message = it.message,
+                                                it.errors
+                                            ), it.message
+                                        )
+                                    )
+                                }
                             }
+                        }
                     }
                 }
         }
@@ -76,7 +75,7 @@ constructor(private val usecaseCabinet: CatalogUsecase) : ViewModel() {
     ) {
         _uiStateGetAllCatalogs.postValue(State.Loading())
         viewModelScope.launch(Dispatchers.IO) {
-            usecaseCabinet.fetchAllSupportedCatalogs(
+            usecaseCatalog.fetchAllSupportedCatalogs(
 
             )
                 .let { response ->

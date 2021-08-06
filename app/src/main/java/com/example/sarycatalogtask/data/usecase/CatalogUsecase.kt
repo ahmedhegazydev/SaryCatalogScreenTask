@@ -1,7 +1,7 @@
 package com.example.sarycatalogtask.data.usecase
 
 import com.example.sarycatalogtask.domain.response.ApiResponse
-import com.example.sarycatalogtask.data.ErrorResponse
+import com.example.sarycatalogtask.domain.response.ErrorResponse
 import com.example.sarycatalogtask.data.banners.BannersData
 import com.example.sarycatalogtask.data.catalog.CatalogsData
 import com.example.sarycatalogtask.data.repo.CatalogRepository

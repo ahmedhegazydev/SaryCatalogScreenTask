@@ -2,9 +2,9 @@ package com.example.sarycatalogtask.repository.base
 
 import android.util.Log
 import com.example.sarycatalogtask.domain.response.ApiResponse
-import com.example.sarycatalogtask.data.ErrorCode
-import com.example.sarycatalogtask.data.ErrorResponse
-import com.example.sarycatalogtask.utils.NoConnectivityException
+import com.example.sarycatalogtask.domain.response.ErrorCode
+import com.example.sarycatalogtask.domain.response.ErrorResponse
+import com.example.sarycatalogtask.utils.network.NoConnectivityException
 import com.example.sarycatalogtask.utils.logger.Logger
 import com.google.gson.stream.MalformedJsonException
 import okhttp3.ResponseBody
@@ -12,19 +12,8 @@ import org.json.JSONObject
 import retrofit2.Response
 import java.net.ConnectException
 
-
 private const val TAG = "IRepository"
 
-/**
- * @author Ahmed Hegzo
- * @param Nothing
- * Base interface to be implemented by all repositories and invoking suspend function
- * that handling success response and error body that fetched from retrofit calling
- * There is a caring about response STATUS code, if it was
- *    @ 401 -> ErrorCode.UNAUTHORIZED
- *    @ 404 -> ErrorCode.NOT_FOUND
- *    Or ErrorCode.UNKNOWN
- */
 interface IRepository {
 
     suspend fun <T> handleRequest(call: suspend () -> Response<T>): ApiResponse<T>? {
@@ -36,7 +25,6 @@ interface IRepository {
             } else {
                     when (apiResponse.code()) {
                         ErrorCode.UNAUTHORIZED.code -> {
-//                            CoreApp.openActivityOnUnauthorized()
                             return null
                         }
                         else -> {
@@ -60,7 +48,6 @@ interface IRepository {
             Log.e(TAG, "handleFailureResponse: $jsonObject")
             try {
 
-//                var testModel = Gson().fromJson(jsonObject, TestModel::class.java)
                 var message = ""
                 var error = ""
 
@@ -127,15 +114,12 @@ interface IRepository {
                     message = jsonObject.getString("message")
                 }
 
-
                 val errorCode: ErrorCode = when (code) {
                     401 -> ErrorCode.UNAUTHORIZED
                     404 -> ErrorCode.NOT_FOUND
                     else -> ErrorCode.UNKNOWN
                 }
 
-
-//                return ApiResponse.Failure(ErrorResponse(errorCode, message, errors))
                 return ApiResponse.Failure(ErrorResponse(errorCode, message, error))
 
             } catch (ex: Exception) {
@@ -156,11 +140,11 @@ interface IRepository {
                 if (exception is ConnectException ||
                     exception is NoConnectivityException
                 ) {
-                    ErrorResponse(ErrorCode.NO_NETWORK)
+                    ErrorResponse(ErrorCode.NO_NETWORK, message = "No internet connection")
                 } else if (exception is MalformedJsonException) {
-                    ErrorResponse(ErrorCode.BAD_RESPONSE)
+                    ErrorResponse(ErrorCode.BAD_RESPONSE, message = "MalformedJsonException")
                 } else {
-                    ErrorResponse(ErrorCode.UNKNOWN)
+                    ErrorResponse(ErrorCode.UNKNOWN, message = "UNKNOWN")
                 }
             return ApiResponse.Failure(errorResponse)
         }

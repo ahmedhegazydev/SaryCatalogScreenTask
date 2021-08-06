@@ -1,4 +1,4 @@
-package com.example.sarycatalogtask.utils
+package com.example.sarycatalogtask.utils.network
 
 import android.content.Context
 import android.net.ConnectivityManager

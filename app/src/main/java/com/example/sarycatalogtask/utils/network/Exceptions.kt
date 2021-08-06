@@ -1,8 +1,8 @@
-package com.example.sarycatalogtask.utils
+package com.example.sarycatalogtask.utils.network
 
 import java.io.IOException
 
 class NoConnectivityException : IOException() {
     override val message: String
-        get() = "No connectivity exception"
+        get() = "No internet connection"
 }

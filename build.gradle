@@ -9,6 +9,9 @@ buildscript {
         okhttp_interceptor_version = '5.0.0-alpha.2'
         okhttp_urlconnection_version = '5.0.0-alpha.2'
         hilt_version = '2.28-alpha'
+        hilt_viewmodel = '1.0.0-alpha01'
+
+        
     }
 
 

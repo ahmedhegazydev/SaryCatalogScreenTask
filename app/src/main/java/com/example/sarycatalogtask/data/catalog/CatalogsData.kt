@@ -3,7 +3,7 @@ package com.example.sarycatalogtask.data.catalog
 data class CatalogsData(
     val message: String,
     val other: Other,
-    val result: List<Result>,
+    val result: List<CatalogResult>,
     val status: Boolean
 )
 data class Data(
@@ -27,7 +27,7 @@ data class Other(
     val uncompleted_profile_settings: UncompletedProfileSettings
 )
 
-data class Result(
+data class CatalogResult(
     val `data`: List<Data>,
     val data_type: String,
     val id: Int,

@@ -1,7 +1,5 @@
 package com.example.sarycatalogtask.domain.response
 
-import com.example.sarycatalogtask.data.ErrorResponse
-
 
 sealed class ApiResponse<out T>(
     val isSuccessful : Boolean,

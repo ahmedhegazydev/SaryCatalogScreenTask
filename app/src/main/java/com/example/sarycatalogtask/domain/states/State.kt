@@ -1,6 +1,6 @@
 package com.example.sarycatalogtask.domain.states
 
-import com.example.sarycatalogtask.data.ErrorResponse
+import com.example.sarycatalogtask.domain.response.ErrorResponse
 
 
 sealed class State<T> {

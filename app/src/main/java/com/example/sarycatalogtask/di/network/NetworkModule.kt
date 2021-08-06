@@ -1,11 +1,9 @@
 package com.example.sarycatalogtask.di.network
 
 import android.content.Context
-import android.content.SharedPreferences
 import com.example.sarycatalogtask.BuildConfig
-import com.example.sarycatalogtask.utils.NetworkUtil
-import com.example.sarycatalogtask.utils.NoConnectivityException
-import com.example.sarycatalogtask.utils.constants.AppConstants
+import com.example.sarycatalogtask.utils.network.NetworkUtil
+import com.example.sarycatalogtask.utils.network.NoConnectivityException
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -72,6 +70,11 @@ object NetworkModule {
             .build()
     }
 
+        @Provides
+    @Singleton
+    fun providesChuckInterceptor(@ApplicationContext context: Context): ChuckInterceptor {
+        return ChuckInterceptor(context).showNotification(true)
+    }
 
     @Provides
     @Singleton
@@ -97,7 +100,7 @@ object NetworkModule {
 
     @Singleton
     class AuthenticationInterceptor @Inject constructor(
-        private var sharedPref: SharedPreferences
+//        private var sharedPref: SharedPreferences
     ) : Interceptor {
         private var authToken: String? = null
         init {
