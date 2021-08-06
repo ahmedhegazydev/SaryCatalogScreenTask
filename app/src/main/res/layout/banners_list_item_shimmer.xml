@@ -5,15 +5,7 @@
 
     <data>
 
-        <import type="com.example.sarycatalogtask.data.banners.BannerResult" />
-
-        <variable
-            name="obj"
-            type="BannerResult" />
-
-
     </data>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -26,22 +18,11 @@
             android:layout_margin="7dp"
             android:elevation="3dp"
             app:cardCornerRadius="20dp"
-            app:cardElevation="3dp"
+            app:cardElevation="0dp"
+            app:cardBackgroundColor="@color/gray_shimmer"
             app:cardUseCompatPadding="true"
             app:layout_constraintTop_toTopOf="parent"
-
-            >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="TODO"
-                android:glideUri="@{obj.image}"
-                android:scaleType="centerCrop"
-                tools:ignore="ContentDescription,HardcodedText" />
-
-
-        </androidx.cardview.widget.CardView>
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

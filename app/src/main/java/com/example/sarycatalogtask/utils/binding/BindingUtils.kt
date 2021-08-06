@@ -38,7 +38,7 @@ object BindingUtils {
         Glide.with(view.context)
             .load(uri)
 //            .apply(RequestOptions().transform(CenterCrop(), multi))
-            .apply(RequestOptions().transform(CenterCrop()))
+//            .apply(RequestOptions().transform(CenterCrop()))
             .into(view)
     }
 

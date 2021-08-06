@@ -38,6 +38,7 @@
                 android:layout_height="200dp"
                 android:contentDescription="TODO"
                 android:glideUri="@{obj.photo}"
+                android:scaleType="centerCrop"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription,HardcodedText" />
 

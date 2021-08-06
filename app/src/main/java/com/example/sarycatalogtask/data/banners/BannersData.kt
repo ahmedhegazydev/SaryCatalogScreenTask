@@ -24,7 +24,7 @@ data class BannerResult(
     val link: String?,
     val photo: String?,
     val priority: Int?,
-//    val promo_code: Any?,
+    val promo_code: String?,
     val start_date: String?,
     val title: String?
 ) : Parcelable

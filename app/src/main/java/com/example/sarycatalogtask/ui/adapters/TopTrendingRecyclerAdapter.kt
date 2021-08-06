@@ -3,19 +3,20 @@ package com.example.sarycatalogtask.ui.adapters
 import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.data.banners.BannerResult
 import com.example.sarycatalogtask.data.catalog.CatalogResult
+import com.example.sarycatalogtask.data.catalog.Data
 import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 
 
-class CatalogRecyclerAdapter : BaseAdapter<CatalogResult>() {
+class TopTrendingRecyclerAdapter : BaseAdapter<Data>() {
 
-    private var data: List<CatalogResult> = emptyList()
+    private var data: List<Data> = emptyList()
 
-    override fun getItemForPosition(position: Int): CatalogResult {
+    override fun getItemForPosition(position: Int): Data {
         return data[position]
     }
 
     override fun getLayoutIdForPosition(position: Int): Int {
-        return R.layout.banners_list_item
+        return R.layout.list_item_top_and_trending
     }
 
     override fun getItemCount(): Int {
@@ -23,7 +24,7 @@ class CatalogRecyclerAdapter : BaseAdapter<CatalogResult>() {
     }
 
 
-    fun setItemAndNotify(dataItems: List<CatalogResult>){
+    fun setItemAndNotify(dataItems: MutableList<Data>){
         this.data = dataItems
         notifyDataSetChanged()
     }
