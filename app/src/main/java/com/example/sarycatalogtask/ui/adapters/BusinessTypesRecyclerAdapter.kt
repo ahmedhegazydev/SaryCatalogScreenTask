@@ -30,7 +30,7 @@ class BusinessTypesRecyclerAdapter : BaseAdapter<Data>() {
     }
 
     override val layoutResShimmer: Int
-        get() = R.layout.category_list_item
+        get() = R.layout.business_type_list_item_shimmer
 
 
 }

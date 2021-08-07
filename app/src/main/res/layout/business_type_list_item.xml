@@ -13,8 +13,8 @@
     </data>
 
     <LinearLayout
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="@dimen/dimen_business_type_width"
+        android:layout_height="@dimen/dimen_business_type_height"
         android:orientation="vertical">
 
 <!--        <androidx.cardview.widget.CardView-->
@@ -27,7 +27,6 @@
 <!--            >-->
 
             <ImageView
-                android:id="@+id/image_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:glideUri="@{obj.image}"

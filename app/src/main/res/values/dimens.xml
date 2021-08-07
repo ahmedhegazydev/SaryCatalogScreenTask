@@ -12,6 +12,8 @@
     <dimen name="dimen_category_width">85dp</dimen>
     <dimen name="dimen_bottom_banner_width">200dp</dimen>
     <dimen name="dimen_bottom_banner_height">120dp</dimen>
+    <dimen name="dimen_business_type_width">90dp</dimen>
+    <dimen name="dimen_business_type_height">90dp</dimen>
 
 
 </resources>

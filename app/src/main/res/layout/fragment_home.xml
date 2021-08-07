@@ -187,19 +187,20 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:visibility="visible"
+
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:snapGravity="start"
                         tools:itemCount="3"
-                        android:layout_marginTop="-5dp"
+                        android:layout_marginTop="20dp"
                         tools:listitem="@layout/bottom_center_banners_list_item" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
+                        android:layout_marginTop="20dp"
                         android:text="By Business Type"
                         android:textColor="@color/gray"
                         android:textSize="17sp" />
@@ -214,6 +215,7 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:spanCount="3"
+                        android:layout_marginStart="5dp"
                         tools:itemCount="10"
                         tools:listitem="@layout/business_type_list_item" />
 

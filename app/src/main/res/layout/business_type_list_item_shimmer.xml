@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.example.sarycatalogtask.data.catalog.Data" />
+
+        <variable
+            name="obj"
+            type="Data" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="@dimen/dimen_business_type_width"
+        android:layout_height="@dimen/dimen_business_type_height"
+        android:orientation="vertical">
+
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                >
+
+                <androidx.cardview.widget.CardView
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_width="match_parent"
+                    app:cardCornerRadius="30dp"
+                    app:cardBackgroundColor="@color/gray_shimmer"
+                    app:cardElevation="0dp"
+
+                    />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+    </LinearLayout>
+</layout>

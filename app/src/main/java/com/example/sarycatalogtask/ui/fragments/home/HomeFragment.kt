@@ -1,9 +1,7 @@
 package com.example.sarycatalogtask.ui.fragments.home
 
-import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.data.banners.BannerResult
 import com.example.sarycatalogtask.data.banners.BannersData
@@ -15,11 +13,11 @@ import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 import com.example.sarycatalogtask.ui.dialogs.BannerMoreInfoDialog
 import com.example.sarycatalogtask.ui.dialogs.BannerMoreInfoDialog.Companion.ARG_KEY_BANNER_ITEM
 import com.example.sarycatalogtask.ui.fragments.base.BaseFragment
+import com.example.sarycatalogtask.utils.extensions.addViewTreeObserver
 import com.example.sarycatalogtask.utils.extensions.doToast
 import com.example.sarycatalogtask.viewmodel.CatalogsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import kotlin.math.floor
 
 
 @AndroidEntryPoint
@@ -195,7 +193,7 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
             rvCategories.adapter = adapterCategories
 //            val spacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing)
 //            rvCategories.addItemDecoration(SpacesItemDecoration(spacingInPixels))
-            val gridLayoutManager = GridLayoutManager(requireActivity(), 4)
+            /*val gridLayoutManager = GridLayoutManager(requireActivity(), 4)
             rvCategories.layoutManager = gridLayoutManager
             rvCategories.viewTreeObserver.addOnGlobalLayoutListener(
                 object : OnGlobalLayoutListener {
@@ -209,7 +207,8 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                         gridLayoutManager.spanCount = newSpanCount
                         gridLayoutManager.requestLayout()
                     }
-                })
+                })*/
+            rvCategories.addViewTreeObserver(resources.getDimension(R.dimen.dimen_category_width).toInt())
 
 
             ///Center  Bottom Banners
@@ -230,6 +229,7 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                 }
             })
             rvBusinessTypes.adapter = adapterBusinessType
+            rvBusinessTypes.addViewTreeObserver(resources.getDimension(R.dimen.dimen_business_type_width).toInt())
 
 
 
