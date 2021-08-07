@@ -1,16 +1,18 @@
 package com.example.sarycatalogtask.repository.base
 
+import android.preference.PreferenceActivity
 import android.util.Log
+import android.util.MalformedJsonException
 import com.example.sarycatalogtask.domain.response.ApiResponse
 import com.example.sarycatalogtask.domain.response.ErrorCode
 import com.example.sarycatalogtask.domain.response.ErrorResponse
-import com.example.sarycatalogtask.utils.network.NoConnectivityException
 import com.example.sarycatalogtask.utils.logger.Logger
-import com.google.gson.stream.MalformedJsonException
+import com.example.sarycatalogtask.utils.network.NoConnectivityException
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
 import java.net.ConnectException
+
 
 private const val TAG = "IRepository"
 
@@ -23,15 +25,26 @@ interface IRepository {
                 Log.e(TAG, "handleRequest Successful: ${apiResponse.body()}")
                 ApiResponse.Success(apiResponse.body())
             } else {
-                    when (apiResponse.code()) {
-                        ErrorCode.UNAUTHORIZED.code -> {
-                            return null
-                        }
-                        else -> {
-                            Log.e(TAG, "handleRequest Not Successful: ${apiResponse.errorBody()}")
-                            handleFailureResponse(apiResponse.code(), apiResponse.errorBody())
-                        }
+                when (apiResponse.code()) {
+                    ErrorCode.UNAUTHORIZED.code -> {
+//                        return null
+                        handleFailureResponse(
+                            apiResponse.headers(),
+                            apiResponse.code(),
+                            apiResponse.errorBody()
+                        )
                     }
+                    else -> {
+                        Log.e(TAG, "handleRequest Not Successful: ${apiResponse.errorBody()}")
+                        handleFailureResponse(
+                            apiResponse.headers(),
+                            apiResponse.code(),
+                            apiResponse.errorBody()
+                        )
+//                            handleFailureResponse(apiResponse.code(), apiResponse.errorBody())
+//                            handleFailureResponse(apiResponse)
+                    }
+                }
 
             }
         } catch (ex: Exception) {
@@ -42,7 +55,21 @@ interface IRepository {
         }
     }
 
-    fun <T> handleFailureResponse(code: Int, errorBody: ResponseBody?): ApiResponse<T> {
+    fun <T> handleFailureResponse(
+        headers: okhttp3.Headers,
+        code: Int,
+        errorBody: ResponseBody?
+    ): ApiResponse<T> {
+//    fun <T> handleFailureResponse(apiResponse: ApiResponse<T>): ApiResponse<T> {
+
+
+        val headerLang = headers.filter {
+            it.first == "Content-Language"
+        }.let {
+            it.first().second
+        }
+        Log.e(TAG, "handleFailureResponse: ${headerLang}")
+
         errorBody?.let {
             val jsonObject = JSONObject(errorBody.string())
             Log.e(TAG, "handleFailureResponse: $jsonObject")
@@ -51,68 +78,23 @@ interface IRepository {
                 var message = ""
                 var error = ""
 
-                if (jsonObject.has("errors")) {
-//                    val errors = jsonObject.getJSONArray("errors")
-                    val errorsObj = jsonObject.getJSONObject("errors")
-                    errorsObj.takeIf {
-                        it.has("trans_type")
-                    }?.let { it ->
-                        error = it.getJSONArray("trans_type").takeIf {
-                            it.length() != 0
-                        }?.let { errors ->
-                            errors[0]
-                        }.toString()
+                when(headerLang){
+                    "ar" -> {
+                        jsonObject.takeIf {
+                            it.has("message_ar")
+                        }?.let { it ->
+                            message = it.getString("message_ar")
+                        }
                     }
-
-                    var isErrorDeptForm = false
-                    errorsObj.takeIf {
-                        it.has("departure_from")
-                    }?.let { it ->
-                        error = it.getJSONArray("departure_from").takeIf {
-                            it.length() != 0
-                        }?.let { errors ->
-                            isErrorDeptForm = true
-                            errors[0]
-                        }.toString()
-                    }
-                    errorsObj.takeIf {
-                        it.has("departure_to") && !isErrorDeptForm
-                    }?.let { it ->
-                        error = it.getJSONArray("departure_to").takeIf {
-                            it.length() != 0
-                        }?.let { errors ->
-                            errors[0]
-                        }.toString()
-                    }
-
-                    var isErrorEmail = false
-                    errorsObj.takeIf {
-                        it.has("email")
-                    }?.let { it ->
-                        error = it.getJSONArray("email").takeIf {
-                            it.length() != 0
-                        }?.let { errors ->
-                            isErrorEmail = true
-                            errors[0]
-                        }.toString()
-                    }
-                    errorsObj.takeIf {
-                        it.has("password")
-                    }?.let { it ->
-                        error = it.getJSONArray("password").takeIf {
-                            it.length() != 0
-                        }?.let { errors ->
-                            errors[0]
-                        }.toString()
+                    else -> {
+                        jsonObject.takeIf {
+                            it.has("message_en")
+                        }?.let { it ->
+                            message = it.getString("message")
+                        }
                     }
                 }
-
                 Log.e(TAG, "handleFailureResponse: ${error}")
-
-
-                if (jsonObject.has("message")) {
-                    message = jsonObject.getString("message")
-                }
 
                 val errorCode: ErrorCode = when (code) {
                     401 -> ErrorCode.UNAUTHORIZED

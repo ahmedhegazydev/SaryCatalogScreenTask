@@ -7,19 +7,16 @@ import com.example.sarycatalogtask.data.catalog.Data
 import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 
 
-class TopTrendingRecyclerAdapter : BaseAdapter<Data>() {
+class CategoriesRecyclerAdapter : BaseAdapter<Data>() {
 
     private var data: List<Data> = emptyList()
 
     override fun getItemForPosition(position: Int): Data {
         return data[position]
     }
-    override val layoutResShimmer: Int
-        get() = R.layout.shimmer_item_top_trending
-
 
     override fun getLayoutIdForPosition(position: Int): Int {
-        return R.layout.list_item_top_and_trending
+        return R.layout.category_list_item
     }
 
     override fun getItemCount(): Int {
@@ -31,5 +28,9 @@ class TopTrendingRecyclerAdapter : BaseAdapter<Data>() {
         this.data = dataItems
         notifyDataSetChanged()
     }
+
+    override val layoutResShimmer: Int
+        get() = R.layout.category_list_item
+
 
 }

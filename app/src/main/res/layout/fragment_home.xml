@@ -45,7 +45,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:visibility="gone"
+                        android:visibility="visible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -54,22 +54,22 @@
                         tools:itemCount="3"
                         tools:listitem="@layout/banners_list_item" />
 
-                    <com.facebook.shimmer.ShimmerFrameLayout
-                        android:id="@+id/shimmer_top_banners"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/dimen_top_banner_height"
-                        android:orientation="horizontal"
-                        app:layout_constraintTop_toTopOf="parent">
+<!--                    <com.facebook.shimmer.ShimmerFrameLayout-->
+<!--                        android:id="@+id/shimmer_top_banners"-->
+<!--                        android:layout_width="match_parent"-->
+<!--                        android:layout_height="@dimen/dimen_top_banner_height"-->
+<!--                        android:orientation="horizontal"-->
+<!--                        app:layout_constraintTop_toTopOf="parent">-->
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+<!--                        <LinearLayout-->
+<!--                            android:layout_width="match_parent"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:orientation="horizontal">-->
 
-                            <include layout="@layout/banners_list_item_shimmer" />
+<!--                            <include layout="@layout/banners_list_item_shimmer" />-->
 
-                        </LinearLayout>
-                    </com.facebook.shimmer.ShimmerFrameLayout>
+<!--                        </LinearLayout>-->
+<!--                    </com.facebook.shimmer.ShimmerFrameLayout>-->
 
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -116,7 +116,7 @@
                                 android:scrollbars="none">
 
                                 <LinearLayout
-                                    android:layout_width="match_parent"
+                                    android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:orientation="horizontal">
 
@@ -149,16 +149,31 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
                         android:text="By Category"
                         android:textColor="@color/gray"
-                        android:textSize="17sp"
-                        android:layout_marginTop="10dp"
-                        />
+                        android:textSize="17sp" />
+
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
                         >
+
+                        <com.github.rubensousa.gravitysnaphelper.GravitySnapRecyclerView
+                            android:id="@+id/rv_categories"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:visibility="visible"
+                            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:snapGravity="start"
+                            app:spanCount="4"
+                            tools:itemCount="20"
+                            tools:listitem="@layout/category_list_item" />
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>

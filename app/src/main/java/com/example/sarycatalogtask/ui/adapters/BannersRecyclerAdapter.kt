@@ -13,6 +13,9 @@ class BannersRecyclerAdapter : BaseAdapter<BannerResult>() {
         return data[position]
     }
 
+    override val layoutResShimmer: Int
+        get() = R.layout.banners_list_item_shimmer
+
     override fun getLayoutIdForPosition(position: Int): Int {
         return R.layout.banners_list_item
     }

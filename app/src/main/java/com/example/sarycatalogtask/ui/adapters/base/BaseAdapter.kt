@@ -5,11 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.annotation.LayoutRes
+import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.BR
+import com.safa.umrahbookingquer.common.extensions.hide
+import com.safa.umrahbookingquer.common.extensions.show
 
 
 /**
@@ -22,6 +26,9 @@ abstract class BaseAdapter<T> :
     RecyclerView.Adapter<BaseAdapter.MyViewHolder<T>>() {
 
 
+    @get:LayoutRes
+    protected abstract val layoutResShimmer: Int
+
     private var itemClickListener: OnItemClickListener<T>? = null
     private var lastPosition = -1
 
@@ -29,8 +36,17 @@ abstract class BaseAdapter<T> :
         this.itemClickListener = itemClickListener
     }
 
+    private var isShimmerEnabled = false
+
+    open fun setShimmerEnabled(isShimmerEnabled: Boolean) {
+        this.isShimmerEnabled = isShimmerEnabled
+    }
+
     interface OnItemClickListener<T> {
         fun onItemClick(item: T)
+    }
+
+    init {
     }
 
     override fun onCreateViewHolder(
@@ -38,13 +54,15 @@ abstract class BaseAdapter<T> :
         viewType: Int
     ): MyViewHolder<T> {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = DataBindingUtil.inflate<ViewDataBinding>(
-            layoutInflater, viewType, parent, false
-        )
-
-//        val height: Int = parent.measuredHeight / 4
-//        binding.root.minimumHeight = height
-
+//        val binding: ViewDataBinding = if (isShimmerEnabled){
+//            DataBindingUtil.inflate(layoutInflater, layoutResShimmer, parent, false)
+//        }else{
+//            DataBindingUtil.inflate(
+//                layoutInflater, viewType, parent, false
+//            )
+//        }
+        val binding =
+            DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
         return MyViewHolder(binding)
     }
 
@@ -52,11 +70,48 @@ abstract class BaseAdapter<T> :
         holder: MyViewHolder<T>,
         position: Int
     ) {
-        val item = getItemForPosition(position)
-        holder.itemView.setOnClickListener {
-            itemClickListener?.onItemClick(item)
+
+        val layoutInflater = LayoutInflater.from(holder.itemView.context)
+
+
+        if (isShimmerEnabled) {
+            if (holder.itemView.findViewWithTag<ViewGroup>("shimmer") == null) {
+                (holder.itemView as ViewGroup).apply {
+                    val shimmer = DataBindingUtil.inflate<ViewDataBinding>(
+                        layoutInflater,
+                        layoutResShimmer,
+                        null,
+                        false
+                    )
+                    holder.itemView.children.forEach {
+                        it.hide()
+                    }
+                    shimmer.root.tag = "shimmer"
+                    addView(
+                        shimmer.root, ViewGroup.LayoutParams(
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                            ViewGroup.LayoutParams.MATCH_PARENT,
+                        )
+                    )
+
+                }
+            }
+        } else {
+            val item = getItemForPosition(position)
+            if (holder.itemView.findViewWithTag<ViewGroup>("shimmer") != null) {
+                (holder.itemView as ViewGroup).apply {
+                    removeView(holder.itemView.findViewWithTag<ViewGroup>("shimmer"))
+                }
+                holder.itemView.children.forEach {
+                    it.show()
+                }
+            }
+
+            holder.itemView.setOnClickListener {
+                itemClickListener?.onItemClick(item)
+            }
+            holder.bind(item)
         }
-        holder.bind(item)
 
 //        setAnimation(holder.itemView, position);
 

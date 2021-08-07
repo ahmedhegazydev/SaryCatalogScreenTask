@@ -1,5 +1,7 @@
 package com.example.sarycatalogtask.data.catalog
 
+import com.example.sarycatalogtask.data.banners.BannerResult
+
 data class CatalogsData(
     val message: String,
     val other: Other,
@@ -7,13 +9,26 @@ data class CatalogsData(
     val status: Boolean
 )
 data class Data(
-    val cover: Any,
-    val deep_link: String,
-    val filters: List<Filter>,
-    val group_id: Int,
-    val image: String,
-    val name: String
-)
+    val cover: String? = "",
+    val deep_link: String? = "",
+    val filters: List<Filter>? = listOf(),
+    val group_id: Int? = 0,
+    val image: String? = "",
+    val name: String? = "",
+
+){
+    companion object{
+            fun populateShimmerDataList(): MutableList<Data>{
+                return mutableListOf(
+                    Data(),
+                    Data(),
+                    Data(),
+                    Data(),
+                    Data(),
+                )
+            }
+    }
+}
 
 data class Filter(
     val filter_id: Int,

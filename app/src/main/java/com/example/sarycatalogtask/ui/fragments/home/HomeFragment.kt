@@ -10,10 +10,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.data.banners.BannerResult
+import com.example.sarycatalogtask.data.banners.BannersData
 import com.example.sarycatalogtask.data.catalog.Data
 import com.example.sarycatalogtask.databinding.FragmentHomeBinding
 import com.example.sarycatalogtask.domain.states.State
 import com.example.sarycatalogtask.ui.adapters.BannersRecyclerAdapter
+import com.example.sarycatalogtask.ui.adapters.CategoriesRecyclerAdapter
 import com.example.sarycatalogtask.ui.adapters.TopTrendingRecyclerAdapter
 import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 import com.example.sarycatalogtask.ui.dialogs.BannerMoreInfoDialog
@@ -42,6 +44,9 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
     @Inject
     lateinit var adapterTopTrending: TopTrendingRecyclerAdapter
 
+    @Inject
+    lateinit var adapterCategories: CategoriesRecyclerAdapter
+
 
     private val catalogCatalogsViewModel: CatalogsViewModel by viewModels()
 
@@ -59,8 +64,10 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
 //                            }
 //                            adapterBanners.setItemAndNotify(this)
 //                        }
+
+                        adapterBanners.setShimmerEnabled(false)
                         adapterBanners.setItemAndNotify(it.result.toMutableList())
-                        shimmerTopBanners.hide()
+//                        shimmerTopBanners.hide()
                         rvBanners.show()
 
                     }
@@ -69,7 +76,8 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                     doToast(state.message)
                 }
                 is State.Loading -> {
-
+                    adapterBanners.setShimmerEnabled(true)
+                    adapterBanners.setItemAndNotify(BannersData.populateDShimmerDataList())
                 }
             }
         }
@@ -81,6 +89,9 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
             when (state) {
                 is State.Success -> {
                     state.data.let {
+
+                        adapterCategories.setShimmerEnabled(false)
+
 //                        it.result.map {
 //                            Log.e(TAG, "setupCatalogsObserver: ${it.id}")
 //                        }
@@ -96,7 +107,11 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
 
 
                         ///By Categories
-
+                        it.result.filter {
+                            it.id == 147
+                        }.let {
+                            adapterCategories.setItemAndNotify(it.first().data as MutableList<Data>)
+                        }
 
                     }
                 }
@@ -104,7 +119,8 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                     doToast(state.message)
                 }
                 is State.Loading -> {
-
+                    adapterCategories.setShimmerEnabled(true)
+                    adapterCategories.setItemAndNotify(Data.populateShimmerDataList())
                 }
             }
         }
@@ -125,12 +141,14 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                 }
             })
             rvBanners.adapter = adapterBanners
+//            adapterBanners.setShimmerEnabled(true)
+//            adapterBanners.setItemAndNotify(BannersData.populateDShimmerDataList())
 
 
             adapterTopTrending.addOnItemClickHandler(object :
                 BaseAdapter.OnItemClickListener<Data> {
                 override fun onItemClick(item: Data) {
-                    doToast(item.name)
+                    doToast(item.name ?: "")
                 }
             })
             rvTopTrending.adapter = adapterTopTrending
@@ -142,7 +160,6 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
 
             catalogCatalogsViewModel.getAllCatalogs()
             setupCatalogsObserver()
-
 
 
         }

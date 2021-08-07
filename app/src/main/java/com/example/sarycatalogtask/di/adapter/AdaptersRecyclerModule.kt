@@ -1,6 +1,7 @@
 package com.example.sarycatalogtask.di.adapter
 
 import com.example.sarycatalogtask.ui.adapters.BannersRecyclerAdapter
+import com.example.sarycatalogtask.ui.adapters.CategoriesRecyclerAdapter
 import com.example.sarycatalogtask.ui.adapters.TopTrendingRecyclerAdapter
 import dagger.Module
 import dagger.Provides
@@ -17,6 +18,13 @@ object AdaptersRecyclerModule {
     @Provides
     fun providesAdapterBanners(): BannersRecyclerAdapter {
         return BannersRecyclerAdapter()
+    }
+
+
+    @Singleton
+    @Provides
+    fun providesAdapterCategories(): CategoriesRecyclerAdapter {
+        return CategoriesRecyclerAdapter()
     }
 
 
