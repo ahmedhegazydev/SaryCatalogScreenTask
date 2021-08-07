@@ -1,33 +1,25 @@
 package com.example.sarycatalogtask.ui.fragments.home
 
-import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.core.os.bundleOf
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.data.banners.BannerResult
 import com.example.sarycatalogtask.data.banners.BannersData
 import com.example.sarycatalogtask.data.catalog.Data
 import com.example.sarycatalogtask.databinding.FragmentHomeBinding
 import com.example.sarycatalogtask.domain.states.State
-import com.example.sarycatalogtask.ui.adapters.BannersRecyclerAdapter
-import com.example.sarycatalogtask.ui.adapters.CategoriesRecyclerAdapter
-import com.example.sarycatalogtask.ui.adapters.TopTrendingRecyclerAdapter
+import com.example.sarycatalogtask.ui.adapters.*
 import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 import com.example.sarycatalogtask.ui.dialogs.BannerMoreInfoDialog
 import com.example.sarycatalogtask.ui.dialogs.BannerMoreInfoDialog.Companion.ARG_KEY_BANNER_ITEM
 import com.example.sarycatalogtask.ui.fragments.base.BaseFragment
 import com.example.sarycatalogtask.utils.extensions.doToast
 import com.example.sarycatalogtask.viewmodel.CatalogsViewModel
-import com.safa.umrahbookingquer.common.extensions.hide
-import com.safa.umrahbookingquer.common.extensions.show
 import dagger.hilt.android.AndroidEntryPoint
-import nl.qbusict.cupboard.annotation.Index
 import javax.inject.Inject
+import kotlin.math.floor
 
 
 @AndroidEntryPoint
@@ -39,13 +31,20 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
     }
 
     @Inject
-    lateinit var adapterBanners: BannersRecyclerAdapter
+    lateinit var adapterTopTopBanners: TopBannersRecyclerAdapter
 
     @Inject
     lateinit var adapterTopTrending: TopTrendingRecyclerAdapter
 
     @Inject
     lateinit var adapterCategories: CategoriesRecyclerAdapter
+
+    @Inject
+    lateinit var adapterBottomCenterBanners: CenterBottomBannersAdapter
+
+
+    @Inject
+    lateinit var adapterBusinessType: BusinessTypesRecyclerAdapter
 
 
     private val catalogCatalogsViewModel: CatalogsViewModel by viewModels()
@@ -65,10 +64,10 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
 //                            adapterBanners.setItemAndNotify(this)
 //                        }
 
-                        adapterBanners.setShimmerEnabled(false)
-                        adapterBanners.setItemAndNotify(it.result.toMutableList())
+                        adapterTopTopBanners.setShimmerEnabled(false)
+                        adapterTopTopBanners.setItemAndNotify(it.result.toMutableList())
 //                        shimmerTopBanners.hide()
-                        rvBanners.show()
+//                        rvBanners.show()
 
                     }
                 }
@@ -76,8 +75,8 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                     doToast(state.message)
                 }
                 is State.Loading -> {
-                    adapterBanners.setShimmerEnabled(true)
-                    adapterBanners.setItemAndNotify(BannersData.populateDShimmerDataList())
+                    adapterTopTopBanners.setShimmerEnabled(true)
+                    adapterTopTopBanners.setItemAndNotify(BannersData.populateDShimmerDataList())
                 }
             }
         }
@@ -88,9 +87,12 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
         catalogCatalogsViewModel.uiStateGetAllCatalogs.observe(requireActivity()) { state ->
             when (state) {
                 is State.Success -> {
-                    state.data.let {
+                    state.data.let { it ->
 
+                        adapterTopTrending.setShimmerEnabled(false)
                         adapterCategories.setShimmerEnabled(false)
+                        adapterBottomCenterBanners.setShimmerEnabled(false)
+                        adapterBusinessType.setShimmerEnabled(false)
 
 //                        it.result.map {
 //                            Log.e(TAG, "setupCatalogsObserver: ${it.id}")
@@ -102,8 +104,8 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                         }.let {
                             adapterTopTrending.setItemAndNotify(it.first().data as MutableList<Data>)
                         }
-                        shimmerTopTrending.hide()
-                        rvTopTrending.show()
+//                        shimmerTopTrending.hide()
+//                        rvTopTrending.show()
 
 
                         ///By Categories
@@ -113,14 +115,40 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                             adapterCategories.setItemAndNotify(it.first().data as MutableList<Data>)
                         }
 
+
+                        ///Center Bottom Banners
+                        it.result.filter {
+                            it.id == 148
+                        }.let {
+                            adapterBottomCenterBanners.setItemAndNotify(it.first().data as MutableList<Data>)
+                        }
+
+//                        ///By Business Types
+                        it.result.filter {
+                            it.id == 13
+                        }.let {
+                            adapterBusinessType.setItemAndNotify(it.first().data as MutableList<Data>)
+                        }
+
+
                     }
                 }
                 is State.Error -> {
                     doToast(state.message)
                 }
                 is State.Loading -> {
-                    adapterCategories.setShimmerEnabled(true)
-                    adapterCategories.setItemAndNotify(Data.populateShimmerDataList())
+//                    adapterTopTrending.setShimmerEnabled(true)
+//                    adapterTopTrending.setItemAndNotify(Data.populateShimmerDataList())
+//
+//
+//                    adapterCategories.setShimmerEnabled(true)
+//                    adapterCategories.setItemAndNotify(Data.populateShimmerDataList())
+//
+//                    adapterBottomCenterBanners.setShimmerEnabled(true)
+//                    adapterBottomCenterBanners.setItemAndNotify(Data.populateShimmerDataList())
+//
+//                    adapterBusinessType.setShimmerEnabled(true)
+//                    adapterBusinessType.setItemAndNotify(Data.populateShimmerDataList())
                 }
             }
         }
@@ -130,7 +158,8 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
         binding?.apply {
 
 
-            adapterBanners.addOnItemClickHandler(object :
+            //Top Banners
+            adapterTopTopBanners.addOnItemClickHandler(object :
                 BaseAdapter.OnItemClickListener<BannerResult> {
                 override fun onItemClick(item: BannerResult) {
                     val bannerMoreInfoDlg = BannerMoreInfoDialog()
@@ -140,11 +169,12 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                     bannerMoreInfoDlg.show(childFragmentManager, BannerMoreInfoDialog.TAG)
                 }
             })
-            rvBanners.adapter = adapterBanners
+            rvBanners.adapter = adapterTopTopBanners
 //            adapterBanners.setShimmerEnabled(true)
 //            adapterBanners.setItemAndNotify(BannersData.populateDShimmerDataList())
 
 
+            ////Top and Trending
             adapterTopTrending.addOnItemClickHandler(object :
                 BaseAdapter.OnItemClickListener<Data> {
                 override fun onItemClick(item: Data) {
@@ -155,6 +185,54 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
 
 
 
+            ///Categories
+            adapterCategories.addOnItemClickHandler(object :
+                BaseAdapter.OnItemClickListener<Data> {
+                override fun onItemClick(item: Data) {
+                    doToast(item.name ?: "")
+                }
+            })
+            rvCategories.adapter = adapterCategories
+//            val spacingInPixels = resources.getDimensionPixelSize(R.dimen.spacing)
+//            rvCategories.addItemDecoration(SpacesItemDecoration(spacingInPixels))
+            val gridLayoutManager = GridLayoutManager(requireActivity(), 4)
+            rvCategories.layoutManager = gridLayoutManager
+            rvCategories.viewTreeObserver.addOnGlobalLayoutListener(
+                object : OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        rvCategories.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                        val viewWidth: Int = rvCategories.measuredWidth
+                        val cardViewWidth =
+                            activity!!.resources.getDimension(R.dimen.dimen_category_width)
+                        val newSpanCount =
+                            floor((viewWidth / cardViewWidth).toDouble()).toInt()
+                        gridLayoutManager.spanCount = newSpanCount
+                        gridLayoutManager.requestLayout()
+                    }
+                })
+
+
+            ///Center  Bottom Banners
+            adapterBottomCenterBanners.addOnItemClickHandler(object :
+                BaseAdapter.OnItemClickListener<Data> {
+                override fun onItemClick(item: Data) {
+                    doToast(item.name ?: "")
+                }
+            })
+            rvCenterBanners.adapter = adapterBottomCenterBanners
+
+
+            ///By Business Type
+            adapterBusinessType.addOnItemClickHandler(object :
+                BaseAdapter.OnItemClickListener<Data> {
+                override fun onItemClick(item: Data) {
+                    doToast(item.name ?: "")
+                }
+            })
+            rvBusinessTypes.adapter = adapterBusinessType
+
+
+
             catalogCatalogsViewModel.getAllBanners()
             setupBannersObserver()
 
@@ -162,6 +240,20 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
             setupCatalogsObserver()
 
 
+
+
+            adapterTopTrending.setShimmerEnabled(true)
+            adapterTopTrending.setItemAndNotify(Data.populateShimmerDataList())
+
+
+            adapterCategories.setShimmerEnabled(true)
+            adapterCategories.setItemAndNotify(Data.populateShimmerDataList())
+
+            adapterBottomCenterBanners.setShimmerEnabled(true)
+            adapterBottomCenterBanners.setItemAndNotify(Data.populateShimmerDataList())
+
+            adapterBusinessType.setShimmerEnabled(true)
+            adapterBusinessType.setItemAndNotify(Data.populateShimmerDataList())
         }
     }
 

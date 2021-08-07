@@ -5,7 +5,7 @@ import com.example.sarycatalogtask.data.banners.BannerResult
 import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 
 
-class BannersRecyclerAdapter : BaseAdapter<BannerResult>() {
+class TopBannersRecyclerAdapter : BaseAdapter<BannerResult>() {
 
     private var data: List<BannerResult> = emptyList()
 

@@ -7,7 +7,7 @@ import com.example.sarycatalogtask.data.catalog.Data
 import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 
 
-class CategoriesRecyclerAdapter : BaseAdapter<Data>() {
+class CenterBottomBannersAdapter : BaseAdapter<Data>() {
 
     private var data: List<Data> = emptyList()
 
@@ -16,13 +16,12 @@ class CategoriesRecyclerAdapter : BaseAdapter<Data>() {
     }
 
     override fun getLayoutIdForPosition(position: Int): Int {
-        return R.layout.category_list_item
+        return R.layout.bottom_center_banners_list_item
     }
 
     override fun getItemCount(): Int {
         return data.size
     }
-
 
     fun setItemAndNotify(dataItems: MutableList<Data>){
         this.data = dataItems
@@ -30,7 +29,7 @@ class CategoriesRecyclerAdapter : BaseAdapter<Data>() {
     }
 
     override val layoutResShimmer: Int
-        get() = R.layout.category_list_item_shimmer
+        get() = R.layout.bottom_center_banners_list_item_shimmer
 
 
 }

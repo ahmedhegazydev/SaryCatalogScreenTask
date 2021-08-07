@@ -7,7 +7,7 @@ import com.example.sarycatalogtask.data.catalog.Data
 import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 
 
-class CategoriesRecyclerAdapter : BaseAdapter<Data>() {
+class BusinessTypesRecyclerAdapter : BaseAdapter<Data>() {
 
     private var data: List<Data> = emptyList()
 
@@ -16,7 +16,7 @@ class CategoriesRecyclerAdapter : BaseAdapter<Data>() {
     }
 
     override fun getLayoutIdForPosition(position: Int): Int {
-        return R.layout.category_list_item
+        return R.layout.business_type_list_item
     }
 
     override fun getItemCount(): Int {
@@ -30,7 +30,7 @@ class CategoriesRecyclerAdapter : BaseAdapter<Data>() {
     }
 
     override val layoutResShimmer: Int
-        get() = R.layout.category_list_item_shimmer
+        get() = R.layout.category_list_item
 
 
 }

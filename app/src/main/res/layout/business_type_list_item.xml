@@ -13,27 +13,28 @@
     </data>
 
     <LinearLayout
-        android:layout_width="@dimen/dimen_category_width"
-        android:layout_height="@dimen/dimen_category_width"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
         android:orientation="vertical">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="0dp"
-            app:cardCornerRadius="100dp"
-            app:cardElevation="0dp">
+<!--        <androidx.cardview.widget.CardView-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_margin="5dp"-->
+<!--            app:cardCornerRadius="100dp"-->
+<!--            app:cardElevation="3dp"-->
+
+<!--            >-->
 
             <ImageView
                 android:id="@+id/image_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:contentDescription="TODO"
                 android:glideUri="@{obj.image}"
                 android:scaleType="centerCrop"
-                android:src="@drawable/water"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                android:contentDescription="TODO" />
 
-        </androidx.cardview.widget.CardView>
+<!--        </androidx.cardview.widget.CardView>-->
     </LinearLayout>
 </layout>

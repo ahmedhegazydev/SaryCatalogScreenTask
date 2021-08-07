@@ -3,4 +3,15 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="dimen_top_banner_height">200dp</dimen>
+    <dimen name="spacing">10dp</dimen>
+
+
+<!--    you can minimize/decrease this value for dynamic spanCount GridLayout Manager
+        for categories
+        -->
+    <dimen name="dimen_category_width">85dp</dimen>
+    <dimen name="dimen_bottom_banner_width">200dp</dimen>
+    <dimen name="dimen_bottom_banner_height">120dp</dimen>
+
+
 </resources>

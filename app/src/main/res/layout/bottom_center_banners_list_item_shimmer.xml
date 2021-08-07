@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/dimen_bottom_banner_width"
+        android:layout_height="@dimen/dimen_bottom_banner_height">
+
+
+     <com.facebook.shimmer.ShimmerFrameLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+
+         >
+
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+
+             >
+             <androidx.cardview.widget.CardView
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 android:layout_margin="7dp"
+                 android:elevation="3dp"
+                 app:cardCornerRadius="20dp"
+                 app:cardElevation="0dp"
+                 app:cardBackgroundColor="@color/gray_shimmer"
+                 app:cardUseCompatPadding="true"
+                 app:layout_constraintTop_toTopOf="parent"
+
+                 />
+
+         </LinearLayout>
+     </com.facebook.shimmer.ShimmerFrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

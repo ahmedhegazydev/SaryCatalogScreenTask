@@ -7,44 +7,53 @@
 
     </data>
 
-    <LinearLayout
+    <com.facebook.shimmer.ShimmerFrameLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:gravity="center"
         android:padding="5dp"
         android:layout_height="wrap_content">
 
-        <LinearLayout
-            android:id="@+id/ll_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            android:background="@drawable/bg_circular_top_trending"
-            android:elevation="3dp"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="20dp"
-                android:contentDescription="TODO"
-                android:src="@drawable/bg_circular__shimmer_top_trending"
-                tools:ignore="HardcodedText" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <LinearLayout
+                android:id="@+id/ll_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/bg_circular_top_trending"
+                android:elevation="3dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:contentDescription="TODO"
+                    android:src="@drawable/bg_circular__shimmer_top_trending"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+
+            <include layout="@layout/shimmer_text_loading_view" />
+            <include layout="@layout/shimmer_text_loading_view" />
+            <include layout="@layout/shimmer_text_loading_view" />
+            <include layout="@layout/shimmer_text_loading_view" />
+            <include layout="@layout/shimmer_text_loading_view" />
+            <include layout="@layout/shimmer_text_loading_view" />
+            <include layout="@layout/shimmer_text_loading_view" />
+
 
         </LinearLayout>
 
-        <include layout="@layout/shimmer_text_loading_view" />
-        <include layout="@layout/shimmer_text_loading_view" />
-        <include layout="@layout/shimmer_text_loading_view" />
-        <include layout="@layout/shimmer_text_loading_view" />
-        <include layout="@layout/shimmer_text_loading_view" />
-        <include layout="@layout/shimmer_text_loading_view" />
-        <include layout="@layout/shimmer_text_loading_view" />
-
-    </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 </layout>

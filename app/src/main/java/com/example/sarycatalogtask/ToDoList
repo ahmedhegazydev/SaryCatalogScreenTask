@@ -8,6 +8,7 @@
 -Replace base adapter with only one and handling only the BaseModel
 -Retry options
 -Caching option
+-Merging all catalog recyclers to only one using view type.
 
 
 

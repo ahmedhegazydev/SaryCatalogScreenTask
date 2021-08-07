@@ -5,7 +5,12 @@ import dagger.hilt.android.HiltAndroidApp
 
 
 @HiltAndroidApp
-class MyApplication : Application(){
+class MyApplication : Application() {
+
+    companion object {
+
+    }
+
 
     override fun onCreate() {
         super.onCreate()

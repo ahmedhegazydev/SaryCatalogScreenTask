@@ -1,8 +1,6 @@
 package com.example.sarycatalogtask.di.adapter
 
-import com.example.sarycatalogtask.ui.adapters.BannersRecyclerAdapter
-import com.example.sarycatalogtask.ui.adapters.CategoriesRecyclerAdapter
-import com.example.sarycatalogtask.ui.adapters.TopTrendingRecyclerAdapter
+import com.example.sarycatalogtask.ui.adapters.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,8 +14,8 @@ object AdaptersRecyclerModule {
 
     @Singleton
     @Provides
-    fun providesAdapterBanners(): BannersRecyclerAdapter {
-        return BannersRecyclerAdapter()
+    fun providesAdapterBanners(): TopBannersRecyclerAdapter {
+        return TopBannersRecyclerAdapter()
     }
 
 
@@ -33,6 +31,20 @@ object AdaptersRecyclerModule {
     fun providesAdapterCatalog(): TopTrendingRecyclerAdapter {
         return TopTrendingRecyclerAdapter()
     }
+
+    @Singleton
+    @Provides
+    fun providesAdapterCenterBottomBanners(): CenterBottomBannersAdapter {
+        return CenterBottomBannersAdapter()
+    }
+
+    @Singleton
+    @Provides
+    fun providesAdapterByBusinessTypes(): BusinessTypesRecyclerAdapter {
+        return BusinessTypesRecyclerAdapter()
+    }
+
+
 
 
 }
