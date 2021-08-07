@@ -4,7 +4,8 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="valid_till">Valid till </string>
-
+    <string name="by_business_type">By Business Type</string>
+    <string name="by_category">By Category</string>
 
 
 </resources>

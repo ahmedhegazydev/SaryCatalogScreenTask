@@ -3,17 +3,14 @@ package com.example.sarycatalogtask.ui.adapters.base;
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.Animation
-import android.view.animation.AnimationUtils
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
-import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.BR
-import com.safa.umrahbookingquer.common.extensions.hide
-import com.safa.umrahbookingquer.common.extensions.show
+import com.example.sarycatalogtask.utils.extensions.hide
+import com.example.sarycatalogtask.utils.extensions.show
 
 
 /**

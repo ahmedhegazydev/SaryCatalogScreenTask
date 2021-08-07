@@ -1,5 +1,5 @@
--Setting the expanding anim to the second bottom banner as talabaat
--Setting shimmer inside BaseAdapter as Reusable
+-Setting the expanding anim to the second bottom banner as talabaat - Done.
+-Setting shimmer inside BaseAdapter as Reusable - - Done.
 -Using RxAndroid if wish instead coroutines.
 
 -Replacing shimmer with progress bar -
@@ -9,6 +9,7 @@
 -Retry options
 -Caching option
 -Merging all catalog recyclers to only one using view type.
+-Using SwipRefreshLayout
 
 
 

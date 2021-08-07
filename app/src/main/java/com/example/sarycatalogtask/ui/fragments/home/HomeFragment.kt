@@ -1,7 +1,11 @@
 package com.example.sarycatalogtask.ui.fragments.home
 
+import android.graphics.Rect
+import android.view.View
+import android.widget.ScrollView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.data.banners.BannerResult
 import com.example.sarycatalogtask.data.banners.BannersData
@@ -14,10 +18,10 @@ import com.example.sarycatalogtask.ui.adapters.base.BaseAdapter
 import com.example.sarycatalogtask.ui.dialogs.BannerMoreInfoDialog
 import com.example.sarycatalogtask.ui.dialogs.BannerMoreInfoDialog.Companion.ARG_KEY_BANNER_ITEM
 import com.example.sarycatalogtask.ui.fragments.base.BaseFragment
-import com.example.sarycatalogtask.utils.extensions.addViewTreeObserver
-import com.example.sarycatalogtask.utils.extensions.doToast
+import com.example.sarycatalogtask.utils.extensions.*
 import com.example.sarycatalogtask.viewmodel.CatalogsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import javax.inject.Inject
 
 
@@ -70,12 +74,15 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
         }
     }
 
+    private lateinit var catalogsData: CatalogsData
 
     private fun FragmentHomeBinding.setupCatalogsObserver() {
         catalogCatalogsViewModel.uiStateGetAllCatalogs.observe(requireActivity()) { state ->
             when (state) {
                 is State.Success -> {
                     state.data.let { it ->
+
+                        this@HomeFragment.catalogsData = it
 
                         adapterTopTrending.setShimmerEnabled(false)
                         adapterCategories.setShimmerEnabled(false)
@@ -92,7 +99,12 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
 
 
                         ///Center Bottom Banners
-                        notifyCenterBottomBanners(it)
+//                        lifecycleScope.launchWhenCreated {
+//                            delay(2000)
+//                            notifyCenterBottomBanners(it)
+//                            rvCenterBanners.expand()
+//                        }
+
 
 //                        ///By Business Types
                         notifyByBusinessTypesFilters(it)
@@ -142,13 +154,29 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
         }
     }
 
+    private var isCenterBottomBannersShows = true
+
     override fun initStuff() {
         binding?.apply {
 
+//            rvTopTrending.hide()
+//            rvTopBanners.hide()
+            rvCenterBanners.hide()
+
+            scrollView.viewTreeObserver.addOnScrollChangedListener {
+                val scrollY: Int = scrollView.scrollY // For ScrollView
+                val scrollX: Int = scrollView.scrollX // For HorizontalScrollView
+                if (isViewVisible(scrollView, rvBusinessTypes) && isCenterBottomBannersShows){
+                    if (::catalogsData.isInitialized){
+                            notifyCenterBottomBanners(catalogsData)
+                            rvCenterBanners.expand()
+                        isCenterBottomBannersShows = !isCenterBottomBannersShows
+                    }
+                }
+            }
 
             //Top Banners
             handlingAdapterTopBanners()
-
 
             ////Top and Trending
             handlingAdapterTopAndTrending()
@@ -166,7 +194,6 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
             handlingAdapterByBusinessTypeFilter()
 
 
-
             catalogCatalogsViewModel.getAllBanners()
             setupBannersObserver()
 
@@ -176,6 +203,15 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
 
             showLoaderShimmer()
         }
+    }
+
+
+    private fun isViewVisible(scrollView: ScrollView, view: View): Boolean {
+        val scrollBounds = Rect()
+        scrollView.getDrawingRect(scrollBounds)
+        val top: Float = view.y
+        val bottom: Float = top + view.height
+        return scrollBounds.top < top && scrollBounds.bottom > bottom
     }
 
     private fun FragmentHomeBinding.handlingAdapterByBusinessTypeFilter() {
@@ -235,7 +271,7 @@ class HomeFragment(override val layoutRes: Int = R.layout.fragment_home) :
                 bannerMoreInfoDlg.show(childFragmentManager, BannerMoreInfoDialog.TAG)
             }
         })
-        rvBanners.adapter = adapterTopTopBanners
+        rvTopBanners.adapter = adapterTopTopBanners
     }
 
     private fun showLoaderShimmer() {

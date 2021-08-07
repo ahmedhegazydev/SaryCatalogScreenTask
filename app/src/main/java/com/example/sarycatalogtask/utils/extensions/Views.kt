@@ -1,33 +1,16 @@
-package com.safa.umrahbookingquer.common.extensions
+package com.example.sarycatalogtask.utils.extensions
 
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.PorterDuff
-import android.os.Build
-import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
 import android.view.animation.Transformation
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.ListPopupWindow
-import android.widget.ProgressBar
 import android.widget.Spinner
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.Insets
 import androidx.core.view.*
-import androidx.navigation.NavDirections
-import androidx.navigation.Navigation
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.safa.umrahbookingquer.common.extensions.marginBottom
-import com.safa.umrahbookingquer.common.extensions.marginRight
-import com.safa.umrahbookingquer.common.extensions.marginTop
 import java.lang.reflect.Field
-import kotlin.math.roundToInt
-
 
 /**
  * View view extension functions
@@ -164,7 +147,7 @@ fun View.collapse() = apply {
     startAnimation(a)
 }
 
-fun View.expand() = apply {
+fun View.expand(duration: Int = 350) = apply {
     val matchParentMeasureSpec =
         View.MeasureSpec.makeMeasureSpec((parent as View).width, View.MeasureSpec.EXACTLY)
     val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
@@ -183,9 +166,10 @@ fun View.expand() = apply {
             return true
         }
     }
-    a.duration = (targetHeight / context.resources.displayMetrics.density).toLong()
+    a.duration = ((targetHeight / context.resources.displayMetrics.density) + duration).toLong()
     startAnimation(a)
 }
+
 fun View.paddingLeft(padding: Int){
     setPadding(padding, paddingTop, paddingRight, paddingBottom)
 }
