@@ -8,7 +8,7 @@ import com.example.sarycatalogtask.repository.BaseCatalogRepository
 import javax.inject.Inject
 
 class CatalogRepository @Inject constructor(private val service: SaryCatalogService) :
-    BaseCatalogRepository(service) {
+    BaseCatalogRepository() {
 
     override suspend fun fetchingBanners(
     ): ApiResponse<BannersData>? {
