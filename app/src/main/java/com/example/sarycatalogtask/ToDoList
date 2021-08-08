@@ -13,7 +13,7 @@
 
 
 
-
+-SOLID
 -Hilt
 -Coroutines
 -MVVM
@@ -28,4 +28,5 @@
 -Gson
 -Glide
 -Binding Adapters
+-Chuck
 

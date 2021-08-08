@@ -70,7 +70,7 @@ object NetworkModule {
             .build()
     }
 
-        @Provides
+    @Provides
     @Singleton
     fun providesChuckInterceptor(@ApplicationContext context: Context): ChuckInterceptor {
         return ChuckInterceptor(context).showNotification(true)
@@ -103,6 +103,7 @@ object NetworkModule {
 //        private var sharedPref: SharedPreferences
     ) : Interceptor {
         private var authToken: String? = null
+
         init {
         }
 

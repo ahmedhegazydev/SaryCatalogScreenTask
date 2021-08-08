@@ -27,7 +27,6 @@ interface IRepository {
             } else {
                 when (apiResponse.code()) {
                     ErrorCode.UNAUTHORIZED.code -> {
-//                        return null
                         handleFailureResponse(
                             apiResponse.headers(),
                             apiResponse.code(),
@@ -41,8 +40,6 @@ interface IRepository {
                             apiResponse.code(),
                             apiResponse.errorBody()
                         )
-//                            handleFailureResponse(apiResponse.code(), apiResponse.errorBody())
-//                            handleFailureResponse(apiResponse)
                     }
                 }
 
@@ -60,8 +57,6 @@ interface IRepository {
         code: Int,
         errorBody: ResponseBody?
     ): ApiResponse<T> {
-//    fun <T> handleFailureResponse(apiResponse: ApiResponse<T>): ApiResponse<T> {
-
 
         val headerLang = headers.filter {
             it.first == "Content-Language"

@@ -7,12 +7,7 @@ import com.example.sarycatalogtask.domain.service.SaryCatalogService
 import com.example.sarycatalogtask.repository.base.IRepository
 
 
-abstract class BaseCatalogRepository constructor(service: SaryCatalogService) : IRepository {
-
+abstract class BaseCatalogRepository : IRepository {
     abstract suspend fun fetchingBanners(): ApiResponse<BannersData>?
-
-    abstract suspend fun fetchingCatalogs(
-    ): ApiResponse<CatalogsData>?
-
-
+    abstract suspend fun fetchingCatalogs(): ApiResponse<CatalogsData>?
 }

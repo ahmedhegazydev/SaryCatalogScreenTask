@@ -3,12 +3,15 @@ package com.example.sarycatalogtask.ui.adapters.base;
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sarycatalogtask.BR
+import com.example.sarycatalogtask.R
 import com.example.sarycatalogtask.utils.extensions.hide
 import com.example.sarycatalogtask.utils.extensions.show
 
@@ -22,6 +25,10 @@ import com.example.sarycatalogtask.utils.extensions.show
 abstract class BaseAdapter<T> :
     RecyclerView.Adapter<BaseAdapter.MyViewHolder<T>>() {
 
+
+    companion object{
+        const val TAG_SHIMMER_VAL = "shimmerTagVieewValue"
+    }
 
     @get:LayoutRes
     protected abstract val layoutResShimmer: Int
@@ -51,13 +58,6 @@ abstract class BaseAdapter<T> :
         viewType: Int
     ): MyViewHolder<T> {
         val layoutInflater = LayoutInflater.from(parent.context)
-//        val binding: ViewDataBinding = if (isShimmerEnabled){
-//            DataBindingUtil.inflate(layoutInflater, layoutResShimmer, parent, false)
-//        }else{
-//            DataBindingUtil.inflate(
-//                layoutInflater, viewType, parent, false
-//            )
-//        }
         val binding =
             DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, viewType, parent, false)
         return MyViewHolder(binding)
@@ -72,7 +72,7 @@ abstract class BaseAdapter<T> :
 
 
         if (isShimmerEnabled) {
-            if (holder.itemView.findViewWithTag<ViewGroup>("shimmer") == null) {
+            if (holder.itemView.findViewWithTag<ViewGroup>(TAG_SHIMMER_VAL) == null) {
                 (holder.itemView as ViewGroup).apply {
                     val shimmer = DataBindingUtil.inflate<ViewDataBinding>(
                         layoutInflater,
@@ -83,7 +83,7 @@ abstract class BaseAdapter<T> :
                     holder.itemView.children.forEach {
                         it.hide()
                     }
-                    shimmer.root.tag = "shimmer"
+                    shimmer.root.tag = TAG_SHIMMER_VAL
                     addView(
                         shimmer.root, ViewGroup.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -95,9 +95,9 @@ abstract class BaseAdapter<T> :
             }
         } else {
             val item = getItemForPosition(position)
-            if (holder.itemView.findViewWithTag<ViewGroup>("shimmer") != null) {
+            if (holder.itemView.findViewWithTag<ViewGroup>(TAG_SHIMMER_VAL) != null) {
                 (holder.itemView as ViewGroup).apply {
-                    removeView(holder.itemView.findViewWithTag<ViewGroup>("shimmer"))
+                    removeView(holder.itemView.findViewWithTag<ViewGroup>(TAG_SHIMMER_VAL))
                 }
                 holder.itemView.children.forEach {
                     it.show()
@@ -110,7 +110,7 @@ abstract class BaseAdapter<T> :
             holder.bind(item)
         }
 
-//        setAnimation(holder.itemView, position);
+        setAnimation(holder.itemView, position);
 
     }
 
@@ -119,14 +119,14 @@ abstract class BaseAdapter<T> :
      * Here is the key method to apply the animation
      */
     open fun setAnimation(viewToAnimate: View, position: Int) {
-//        if (position > lastPosition) {
-//            val animation: Animation = AnimationUtils.loadAnimation(
-//                viewToAnimate.context,
-////                R.anim.fade_in
-//            )
-//            viewToAnimate.startAnimation(animation)
-//            lastPosition = position
-//        }
+        if (position > lastPosition) {
+            val animation: Animation = AnimationUtils.loadAnimation(
+                viewToAnimate.context,
+                R.anim.fade_in
+            )
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
