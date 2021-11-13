@@ -126,9 +126,9 @@ object NetworkModule {
             return chain.proceed(request)
         }
 
-        override fun equals(obj: Any?): Boolean {
-            return (obj is AuthenticationInterceptor
-                    && authToken!!.contentEquals(obj.authToken!!))
+        override fun equals(other: Any?): Boolean {
+            return (other is AuthenticationInterceptor
+                    && authToken!!.contentEquals(other.authToken!!))
         }
 
         override fun hashCode(): Int {
